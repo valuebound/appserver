@@ -6,9 +6,10 @@ ENV DRUSH_VERSION 8.1.0
 # Common
 RUN apt-get update \
     && apt-get install -y \
-        wget \
+        git \
         openssl \
-        git
+        supervisor \
+        wget
 
 #Install nginx
 
@@ -28,8 +29,7 @@ ADD ./templates/default.nginx.cnf conf.d/default.conf
 
 EXPOSE 80 443
 
-CMD ["nginx", "-g", "daemon off;"]
-
+#CMD ["nginx", "-g", "daemon off;"]
 
 # Locales
 RUN apt-get update \
@@ -88,7 +88,7 @@ RUN apt-get install -y \
 
 # Configure PHP-FPM
 
-RUN sed -i 's/listen = .*/listen = '127.0.0.0:9000'/' /usr/local/etc/php-fpm.d/www.conf
+#RUN sed -i 's/listen = .*/listen = '127.0.0.0:9000'/' /usr/local/etc/php-fpm.d/www.conf
 
 # Memcached
 # TODO PECL not available for PHP 7 yet, we must compile it.
@@ -118,6 +118,16 @@ RUN composer global require drush/drush:"$DRUSH_VERSION" --prefer-dist \
     && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/drush \
     && drush core-status -y \
     && rm -rf /var/lib/apt/lists/*
+
+#WORKDIR /etc/supervisor/conf.d
+#RUN service nginx restart
+
+#RUN rm -Rf /etc/supervisor/supervisord.conf
+
+COPY ./templates/supervisord.conf /etc/supervisor/conf.d/super.conf
+
+
+COPY ./templates/index.php /var/www/html/index.php
 
 WORKDIR /var/www/html
 
