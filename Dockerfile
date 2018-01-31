@@ -125,8 +125,7 @@ RUN composer global require drush/drush:"$DRUSH_VERSION" --prefer-dist \
 #RUN rm -Rf /etc/supervisor/supervisord.conf
 
 COPY ./templates/supervisord.conf /etc/supervisor/conf.d/super.conf
-
-
+ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/super.conf"]
 
 COPY ./templates/index.php /var/www/html/index.php
 
