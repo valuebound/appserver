@@ -98,25 +98,6 @@ server {
       expires           30d;
     }
 
-    location = /index.php {
-        fastcgi_pass php;
-    }
-
-    location = /core/install.php {
-        fastcgi_pass php;
-    }
-
-    location = /core/modules/statistics/statistics.php {
-        fastcgi_pass php;
-    }
-
-    location = /cron {
-        fastcgi_param QUERY_STRING $args;
-        fastcgi_param SCRIPT_NAME /index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
-        fastcgi_pass php;
-    }
-
     location ~* ^/update.php {
         fastcgi_param QUERY_STRING $args;
         fastcgi_param SCRIPT_NAME /update.php;
