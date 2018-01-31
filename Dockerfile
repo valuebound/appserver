@@ -127,6 +127,7 @@ RUN composer global require drush/drush:"$DRUSH_VERSION" --prefer-dist \
 COPY ./templates/supervisord.conf /etc/supervisor/conf.d/super.conf
 
 
+
 COPY ./templates/index.php /var/www/html/index.php
 
 WORKDIR /var/www/html
