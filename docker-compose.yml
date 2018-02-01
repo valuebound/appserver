@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    image: valuebound/appserver
+    ports:
+      - "8000-8080:80"
+      - "3000-3080:443"
+    restart: always
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
