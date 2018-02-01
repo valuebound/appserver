@@ -1,4 +1,5 @@
-## Debian Nginx-1.12.0, PHP7.1-FPM, Drush, Composer,  image
+Debian Nginx-1.12.0, PHP7.1-FPM, Drush, Composer,  image
+=========================================================
 
 Nginx/PHP-FPM Docker image - based on `php:7.1-fpm`.
 
@@ -7,41 +8,41 @@ Sample Docker build files to facilitate installation, configuration, and environ
 
 This is the [valuebound/appserver](https://hub.docker.com/r/valuebound/appserver/builds/) Docker image providing Nginx 1.12.0,PHP-FPM 7.1, Drush and Composer with a tuned for great performance.
 
-## Features
+#### Features
 
-### Nginx 1.12.0
+##### Nginx 1.12.0
 
 This image is based on [valuebound/appserver](https://hub.docker.com/r/valuebound/appserver/builds) - go there for more details.  
 **Default host** is configured and served from `/var/www/html`. [index.php] file to added to that location with phpinfo().
 
-### PHP-FPM 7.1
+##### PHP-FPM 7.1
 
 **PHP 7.1** is up & running for the default host. See [/etc/nginx/conf.d/default.conf].
 
 [/etc/nginx/fastcgi_params](rootfs/etc/nginx/fastcgi_params) has been tweaked to work well with most PHP applications.
 
-### Drush
+##### Drush
 
 **Drush** Drush is up and running.
 
-### Composer
+##### Composer
 
 **Composer** Composer is up and running.
 
-### Error logging
+##### Error logging
 
 Nginx and PHP error logs are available via 'docker logs [container]'.
 In addition, they are logged to `/var/log/nginx/error.log`. 
 
-### Directory structure
+##### Directory structure
 ```
 /var/www # Web content
-/var/www/html # Root directory for the default host
+/var/www/web # Root directory for the default host
 /var/log/ # Nginx, PHP logs
 /var/tmp/php/ # PHP temp directories
 ```
 
-### Pre-defined FastCGI cache for PHP backend
+##### Pre-defined FastCGI cache for PHP backend
 
 A PHP location with FastCGI caching can be created like this:
 ```
@@ -77,4 +78,4 @@ docker run -d --name=app -p=80:80 -p=443:443 -e GENERATE_DEFAULT_HOST=true
 
 ### By creating a new image and embedding the web content
 
-	FROM php:7.1-fpm
+	FROM valuebound/appserver:latest
