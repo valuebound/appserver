@@ -8,6 +8,8 @@ services:
     restart: always
   db:
     image: mariadb
+    ports:
+      - "3310-3380:3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
