@@ -12,7 +12,6 @@ RUN apt-get update \
         wget
 
 #Install nginx
-
 WORKDIR /tmp
 RUN wget http://nginx.org/keys/nginx_signing.key
 RUN apt-key add nginx_signing.key
@@ -25,11 +24,9 @@ RUN apt-get update \
 WORKDIR /etc/nginx
 RUN rm -Rf conf.d/default.conf
 
-ADD ./templates/default.nginx.cnf conf.d/default.conf
+ADD ./templates/default.nginx.cnf conf.d/default.conf 
 
 EXPOSE 80 443
-
-#CMD ["nginx", "-g", "daemon off;"]
 
 # Locales
 RUN apt-get update \
@@ -88,7 +85,7 @@ RUN apt-get install -y \
 
 # Configure PHP-FPM
 
-#RUN sed -i 's/listen = .*/listen = '127.0.0.0:9000'/' /usr/local/etc/php-fpm.d/www.conf
+# RUN sed -i 's/listen = .*/listen = '127.0.0.0:9000'/' /usr/local/etc/php-fpm.d/www.conf
 
 # Memcached
 # TODO PECL not available for PHP 7 yet, we must compile it.
@@ -105,8 +102,6 @@ RUN git clone -b php7 https://github.com/php-memcached-dev/php-memcached \
     && cp /tmp/php-memcached/modules/memcached.so /usr/local/lib/php/extensions/no-debug-non-zts-20160303/memcached.so \
     && docker-php-ext-enable memcached
 
-USER root
-
 # Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/ \
@@ -119,17 +114,14 @@ RUN composer global require drush/drush:"$DRUSH_VERSION" --prefer-dist \
     && drush core-status -y \
     && rm -rf /var/lib/apt/lists/*
 
-#WORKDIR /etc/supervisor/conf.d
-#RUN service nginx restart
+WORKDIR /etc/supervisor
 
-#RUN rm -Rf /etc/supervisor/supervisord.conf
-
-COPY ./templates/supervisord.conf /etc/supervisor/conf.d/super.conf
+COPY ./templates/supervisord.conf conf.d/super.conf
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/super.conf"]
 
-COPY ./templates/index.php /var/www/html/index.php
+COPY ./templates/index.php /var/www/web/index.php
 
-WORKDIR /var/www/html
+WORKDIR /var/www/web
 
 RUN apt-get -y clean \
     && apt-get -y autoclean \

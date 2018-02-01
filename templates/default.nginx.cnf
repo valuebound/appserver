@@ -7,7 +7,7 @@ server {
     access_log  /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
 
-    root /var/www/html;
+    root /var/www/web;
     index index.php;
 
 ## serve imagecache files directly or redirect to drupal if they do not exist.
