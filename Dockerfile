@@ -11,6 +11,8 @@ RUN apt-get update \
         supervisor \
         wget
 
+RUN chmod -R 777 /tmp
+
 #Install nginx
 WORKDIR /tmp
 RUN wget http://nginx.org/keys/nginx_signing.key
